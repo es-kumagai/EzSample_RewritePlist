@@ -13,6 +13,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+	NSDictionary * info = [[NSBundle mainBundle] infoDictionary];
+	
+	NSLog(@"DisplayName: %@", info[@"CFBundleDisplayName"]);
+	NSLog(@"Build: %@", info[@"CFBundleVersion"]);
+	
     return YES;
 }
 							

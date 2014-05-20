@@ -53,6 +53,10 @@
 		B1149872192A190700F525DD /* EzSample_RewritePlistTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EzSample_RewritePlistTests-Info.plist"; sourceTree = "<group>"; };
 		B1149874192A190700F525DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B1149876192A190700F525DD /* EzSample_RewritePlistTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EzSample_RewritePlistTests.m; sourceTree = "<group>"; };
+		B1149886192A1CB000F525DD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		B1149889192A1CB000F525DD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		B114988A192A1CB000F525DD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B114988B192A1CB000F525DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +109,8 @@
 				B114984D192A190700F525DD /* CoreGraphics.framework */,
 				B114984F192A190700F525DD /* UIKit.framework */,
 				B114986A192A190700F525DD /* XCTest.framework */,
+				B1149886192A1CB000F525DD /* Cocoa.framework */,
+				B1149888192A1CB000F525DD /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -152,6 +158,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B1149888192A1CB000F525DD /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B1149889192A1CB000F525DD /* AppKit.framework */,
+				B114988A192A1CB000F525DD /* CoreData.framework */,
+				B114988B192A1CB000F525DD /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -162,6 +178,7 @@
 				B1149844192A190700F525DD /* Sources */,
 				B1149845192A190700F525DD /* Frameworks */,
 				B1149846192A190700F525DD /* Resources */,
+				B1149880192A193000F525DD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -244,6 +261,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B1149880192A193000F525DD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#infoPlistFile=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n#infoPlistFile=\"${TEMP_DIR}/Preprocessed-Info.plist\"\ninfoPlistFile=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n#timeData=`date +\"%H%M%S\"`\n\ninfoPlistFileSource=\"${SRCROOT}/${INFOPLIST_FILE}\"\n\necho \"Info.plist = $infoPlistFile\"\necho \"Info.plist (source) = $infoPlistFileSource\"\n#echo \"timeData <= $timeData\"\n\nls -l \"${infoPlistFile}\"\nls -l \"${infoPlistFileSource}\"\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${infoPlistFile}\")\n#buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${infoPlistFileSource}\")\nbuildNumber=$((${buildNumber%%.*} + 1))\n#buildNumber=\"Pre-$buildNumber\"\n\necho \"Build = $buildNumber\"\n\n/usr/libexec/PlistBuddy -c \"Set:CFBundleVersion $buildNumber\" \"${infoPlistFile}\"\n\n#touch \"${infoPlistFileSource}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B1149844192A190700F525DD /* Sources */ = {
@@ -334,6 +367,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -366,6 +400,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -380,6 +415,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EzSample_RewritePlist/EzSample_RewritePlist-Prefix.pch";
 				INFOPLIST_FILE = "EzSample_RewritePlist/EzSample_RewritePlist-Info.plist";
+				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -393,6 +429,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EzSample_RewritePlist/EzSample_RewritePlist-Prefix.pch";
 				INFOPLIST_FILE = "EzSample_RewritePlist/EzSample_RewritePlist-Info.plist";
+				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -457,6 +494,7 @@
 				B114987C192A190700F525DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B114987D192A190700F525DD /* Build configuration list for PBXNativeTarget "EzSample_RewritePlistTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +503,7 @@
 				B114987F192A190700F525DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
